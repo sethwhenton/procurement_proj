@@ -1,0 +1,14 @@
+<!-- core/templates/core/add_budget.html -->
+{% extends 'core/base.html' %}
+
+{% block content %}
+<div class="container">
+    <h1>Add Budget</h1>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" class="button">Add Budget</button>
+    </form>
+    <a href="{% url 'view_budgets' %}" class="button">Cancel</a>
+</div>
+{% endblock %}

@@ -1,0 +1,32 @@
+<!-- core/templates/core/item_list.html -->
+{% extends 'core/base.html' %}
+{% block content %}
+<div class="container">
+    <h1>Items</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Price</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for item in items %}
+            <tr>
+                <td>{{ item.name }}</td>
+                <td>{{ item.price }}</td>
+                <td>
+                    <a href="{% url 'update_item' item.id %}">Update</a>
+                    <a href="{% url 'delete_item' item.id %}">Delete</a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <a href="{% url 'add_item' %}" class="button">Add Item</a>
+    <div class="back-button">
+        <a href="{% url 'admin_home' %}" class="button">Back to Admin Home</a>
+    </div>
+</div>
+{% endblock %}

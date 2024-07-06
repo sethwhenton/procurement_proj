@@ -1,0 +1,14 @@
+<!-- core/templates/core/delete_budget.html -->
+{% extends 'core/base.html' %}
+
+{% block content %}
+<div class="container">
+    <h1>Delete Budget</h1>
+    <p>Are you sure you want to delete the budget: {{ budget.classification }} - {{ budget.amount }}gh?</p>
+    <form method="post">
+        {% csrf_token %}
+        <button type="submit" class="button">Delete</button>
+        <a href="{% url 'view_budgets' %}" class="button">Cancel</a>
+    </form>
+</div>
+{% endblock %}

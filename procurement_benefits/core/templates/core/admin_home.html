@@ -1,0 +1,16 @@
+<!-- core/templates/core/admin_home.html -->
+{% extends 'core/base.html' %}
+
+{% block content %}
+<div class="container">
+    <div class="button-container">
+        <a href="{% url 'item_list' %}" class="button">Items</a>
+        <a href="{% url 'user_list' %}" class="button">Users</a>
+        <a href="{% url 'view_all_items' %}" class="button">View All Items</a>
+        <a href="{% url 'settings' %}" class="button">Settings</a>
+    </div>
+    <div class="back-button">
+        <a href="{% url 'home' %}" class="button">Back to Home</a>
+    </div>
+</div>
+{% endblock %}

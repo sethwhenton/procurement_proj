@@ -1,0 +1,30 @@
+<!-- core/templates/core/summary_checkout.html -->
+{% extends 'core/base.html' %}
+{% block content %}
+<div class="container">
+    <h1>Summary Checkout</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>Item</th>
+                <th>Quantity</th>
+                <th>Price</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for item in selected_items %}
+            <tr>
+                <td>{{ item.name }}</td>
+                <td>{{ item.quantity }}</td>
+                <td>{{ item.price }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <form method="post" action="{% url 'save_items' %}">
+        {% csrf_token %}
+        <button type="submit" class="button">Save Items</button>
+    </form>
+    <a href="{% url 'select_item' %}" class="button">Back</a>
+</div>
+{% endblock %}
