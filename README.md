@@ -58,12 +58,16 @@ The Procurement Benefits project uses Django framework to build a comprehensive 
 - **Budgets:** Allocation and management of budget resources.
 - **Settings:** Configuration options for application behavior.
 
+## New Updates
+- Implement shopping cart functionality for users to select and manage items.✅
+
 ## Future Plans
-- Implement shopping cart functionality for users to select and manage items.
-- Enhance reporting and analytics features for better procurement insights.
+- Work on the view all items selected by staff in a particular department
+- Work on the table to view all items from all departments combined as well as the total cost of items selected.
+- Work on some extra few features for accessibility and convenience
 - Improve user interface and user experience based on feedback and testing.
-- Expand integration with external systems or APIs for enhanced functionality.
-- A beautiful UI soon
+  
+
 
 ---
 
