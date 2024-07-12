@@ -6,8 +6,8 @@
     <p>Are you sure you want to delete "{{ user.user.username }}"?</p>
     <form method="post" action="">
         {% csrf_token %}
-        <button type="submit" class="button">Yes</button>
-        <a href="{% url 'user_list' %}" class="button">No</a>
+        <button type="submit" class="table-button">Yes</button>
+        <a href="{% url 'user_list' %}" class="table-button">No</a>
     </form>
 </div>
 {% endblock %}

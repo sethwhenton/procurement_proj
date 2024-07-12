@@ -15,8 +15,8 @@
             <tr>
                 <td>{{ department.name }}</td>
                 <td>
-                    <a href="{% url 'update_department' department.id %}" class="button">Update</a>
-                    <a href="{% url 'delete_department' department.id %}" class="button">Delete</a>
+                    <a href="{% url 'update_department' department.id %}" class="table-button">Update</a>
+                    <a href="{% url 'delete_department' department.id %}" class="table-button">Delete</a>
                 </td>
             </tr>
             {% endfor %}

@@ -5,6 +5,8 @@ class Department(models.Model):
 
     def __str__(self):
         return self.name
+    
+
 
 class Item(models.Model):
     name = models.CharField(max_length=100)
@@ -27,3 +29,17 @@ class CustomUser(models.Model):
 
     def __str__(self):
         return self.name
+    
+
+
+# models.py
+class SelectedItem(models.Model):
+    user = models.ForeignKey(CustomUser, on_delete=models.CASCADE, default=1)  # Replace 1 with an appropriate default user ID
+    item = models.ForeignKey(Item, on_delete=models.CASCADE)
+    quantity = models.PositiveIntegerField()
+
+    def __str__(self):
+        return f"{self.quantity} of {self.item.name}"
+
+
+

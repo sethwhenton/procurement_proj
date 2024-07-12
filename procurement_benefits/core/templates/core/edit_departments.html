@@ -15,14 +15,14 @@
             <tr>
                 <td>{{ department.name }}</td>
                 <td>
-                    <a href="{% url 'update_department' department.id %}" class="button">Update</a>
-                    <a href="{% url 'delete_department' department.id %}" class="button">Delete</a>
+                    <a href="{% url 'update_department' department.id %}" class="table-button">Update</a>
+                    <a href="{% url 'delete_department' department.id %}" class="table-button">Delete</a>
                 </td>
             </tr>
             {% endfor %}
         </tbody>
     </table>
-    <a href="{% url 'add_department' %}" class="button">Add Department</a>
-    <a href="{% url 'settings' %}" class="button">Back</a>
+    <a href="{% url 'add_department' %}" class="table-button">Add Department</a>
+    <a href="{% url 'settings' %}" class="table-button">Back</a>
 </div>
 {% endblock %}

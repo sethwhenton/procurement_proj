@@ -1,8 +1,12 @@
 # core/views.py
 from django.shortcuts import render, redirect, get_object_or_404
-from .models import Item, CustomUser, Department, Budget
+from .models import Item, CustomUser, Department, Budget, SelectedItem
 from .forms import ItemForm, UserForm, DepartmentForm, BudgetForm
+from django.http import JsonResponse
+from django.views.decorators.csrf import csrf_exempt
+import json
 
+from collections import defaultdict
 # Admin Home
 # core/views.py
 from django.shortcuts import render
@@ -21,23 +25,121 @@ def item_home(request):
     return render(request, 'core/item_home.html')
 
 
-def user_home(request):
-    departments = Department.objects.all()  # Retrieve all departments
-    users = CustomUser.objects.all()        # Retrieve all users
-    return render(request, 'core/user_home.html', {'departments': departments, 'users': users})
+# def user_home(request):
+#     departments = Department.objects.all()  # Retrieve all departments
+#     users = CustomUser.objects.all()        # Retrieve all users
+#     return render(request, 'core/user_home.html', {'departments': departments, 'users': users})
+
+
 
 ########## USER SELECT ITEM ################
 
 
-def select_item(request):
-    # Logic to filter items based on user's department
-    items = Item.objects.all()  # Replace with actual filtering logic
-    return render(request, 'core/select_item.html', {'items': items})
+def user_home(request):
+    users = CustomUser.objects.all()
+    if request.method == 'POST':
+        user_id = request.POST.get('user')
+        user = get_object_or_404(CustomUser, id=user_id)
+        request.session['selected_user'] = user_id
+        return redirect('select_item')
+    return render(request, 'core/user_home.html', {'users': users})
 
-def summary_checkout(request):
-    # Logic to retrieve selected items
-    selected_items = request.session.get('selected_items', [])  # Assuming selected items are stored in session
-    return render(request, 'core/summary_checkout.html', {'selected_items': selected_items})
+# core/views.py
+
+
+
+
+from django.core.serializers.json import DjangoJSONEncoder
+
+def select_item(request):
+    user_id = request.session.get('selected_user')
+    user = get_object_or_404(CustomUser, id=user_id)
+    items = Item.objects.all()
+    selected_items = SelectedItem.objects.filter(user=user)
+
+    # Convert the selected items to a JSON serializable format
+    selected_items_data = [
+        {
+            'id': item.item.id,
+            'name': item.item.name,
+            'quantity': item.quantity,
+            'total': float(item.quantity * item.item.price)
+        } for item in selected_items
+    ]
+    
+    return render(request, 'core/select_item.html', {
+        'user': user,
+        'items': items,
+        'selected_items_data': json.dumps(selected_items_data, cls=DjangoJSONEncoder)
+    })
+
+
+
+@csrf_exempt
+def save_selection(request):
+    if request.method == 'POST':
+        print("Received POST request")
+        user_id = request.session.get('selected_user')
+        if not user_id:
+            print("No user selected")
+            return JsonResponse({'status': 'failed', 'message': 'No user selected'}, status=400)
+
+        user = get_object_or_404(CustomUser, id=user_id)
+        selected_items = json.loads(request.POST.get('selected_items'))
+        print(f"Selected items: {selected_items}")
+
+        # Clear previous selections
+        SelectedItem.objects.filter(user=user).delete()
+
+        # Save new selections
+        for item in selected_items:
+            item_obj = get_object_or_404(Item, id=item['itemId'])
+            SelectedItem.objects.create(user=user, item=item_obj, quantity=int(item['quantity']))
+        
+        print("Selections saved successfully")
+        return JsonResponse({'status': 'success'})
+
+    print("Invalid request method")
+    return JsonResponse({'status': 'failed', 'message': 'Invalid request method'}, status=405)
+
+
+# def summary_checkout(request):
+#     user_id = request.session.get('selected_user')
+#     user = CustomUser.objects.get(id=user_id)
+#     selected_items = SelectedItem.objects.filter(user=user)
+    
+#     # Calculate the total cost for each selected item
+#     for selected_item in selected_items:
+#         selected_item.total = selected_item.quantity * selected_item.item.price
+
+#     return render(request, 'core/summary_checkout.html', {'user': user, 'selected_items': selected_items})
+
+def summary_checkout(request, user_id=None):
+    if user_id:
+        user = get_object_or_404(CustomUser, id=user_id)
+    else:
+        user_id = request.session.get('selected_user')
+        user = get_object_or_404(CustomUser, id=user_id)
+        
+    selected_items = SelectedItem.objects.filter(user=user)
+    
+    for selected_item in selected_items:
+        selected_item.total = selected_item.quantity * selected_item.item.price
+    
+    total_cost = sum(item.total for item in selected_items)
+    
+    return render(request, 'core/summary_checkout.html', {
+        'user': user,
+        'selected_items': selected_items,
+        'total_cost': total_cost
+    })
+
+
+def user_selected_items(request):
+    user_id = request.session.get('selected_user')
+    user = CustomUser.objects.get(id=user_id)
+    selected_items = SelectedItem.objects.filter(user=user)
+    return render(request, 'core/user_selected_items.html', {'user': user, 'selected_items': selected_items})
 
 
 

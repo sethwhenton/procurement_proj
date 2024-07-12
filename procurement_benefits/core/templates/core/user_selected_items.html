@@ -3,13 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Summary Checkout</title>
+    <title>Selected Items</title>
     {% load static %}
     <link rel="stylesheet" type="text/css" href="{% static 'core/style.css' %}">
 </head>
 <body>
     <div class="heading">
-        <h2>Summary for {{ user.name }}</h2>
+        <h2>Selected Items for {{ user.name }}</h2>
     </div>
     <div class="summary">
         <ul>
@@ -18,18 +18,9 @@
                 <p>
                     <span class="item-name">{{ selected_item.item.name }}</span> x 
                     <span class="item-quantity">{{ selected_item.quantity }}</span> - 
-                    $<span class="item-total">{{ selected_item.total }}</span>
+                    $<span class="item-total">{{ selected_item.quantity|multiply:selected_item.item.price }}</span>
                 </p>
             </li>
             {% endfor %}
         </ul>
-    </div>
-    <div class="total-cost">
-        <p>Total Cost: ${{ total_cost }}</p>
-    </div>
-    <div class="button-container">
-        <a href="{% url 'select_item' %}" class="button">Edit Selected Items</a>
-        <a href="{% url 'user_home' %}" class="button">Save and Return Home</a>
-    </div>
-</body>
-</html>
+   

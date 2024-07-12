@@ -17,8 +17,8 @@
                 <td>{{ budget.department.name }}</td>
                 <td>{{ budget.amount }}</td>
                 <td>
-                    <a href="{% url 'update_budget' budget.id %}" class="button">Update</a>
-                    <a href="{% url 'delete_budget' budget.id %}" class="button">Delete</a>
+                    <a href="{% url 'update_budget' budget.id %}" class="table-button">Update</a>
+                    <a href="{% url 'delete_budget' budget.id %}" class="table-button">Delete</a>
                 </td>
             </tr>
             {% empty %}

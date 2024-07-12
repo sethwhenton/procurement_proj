@@ -7,8 +7,8 @@
         {% csrf_token %}
         <label for="name">Department Name:</label>
         <input type="text" id="name" name="name" value="{{ department.name }}" required>
-        <button type="submit" class="button">Update</button>
+        <button type="submit" class="table-button">Update</button>
     </form>
-    <a href="{% url 'edit_departments' %}" class="button">Back</a>
+    <a href="{% url 'edit_departments' %}" class="table-button">Back</a>
 </div>
 {% endblock %}
