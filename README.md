@@ -64,7 +64,7 @@ The Procurement Benefits project uses Django framework to build a comprehensive 
 ## Future Plans
 - Work on the view all items selected by staff in a particular department
 - Work on the table to view all items from all departments combined as well as the total cost of items selected.
-- Work on some extra few features for accessibility and convenience
+- Work on some extra few features for accessibility and convenience.
 - Improve user interface and user experience based on feedback and testing.
   
 
