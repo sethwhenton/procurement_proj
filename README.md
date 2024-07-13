@@ -49,14 +49,14 @@ To get started with this project locally, follow these steps:
 The Procurement Benefits project uses Django framework to build a comprehensive web application with the following features:
 
 - **Admin Interface:** Allows administrators to manage items, users, departments, budgets, and settings.
-- **User Interface:** Provides functionalities for users to view items, manage their profiles, and interact with procurement features.
+- **User Interface:** Provides functionalities for users to view items, manage their selected items, and save their selection.
 
 ### Key Features
 - **Items:** CRUD operations for managing procurement items.
-- **Users:** Management of user profiles and permissions.
-- **Departments:** Creation and management of organizational departments.
-- **Budgets:** Allocation and management of budget resources.
-- **Settings:** Configuration options for application behavior.
+- **Users:** Users are able to select their profile and select their preferred items from a list of available items set by procurement.
+- **Departments:** Admins will be able to view total number of items selected by users in a particular department
+- **Convert to PDF:** Admins will be able to download data from the data base which will be an excel sheet of all users items cummulated and grouped per their departments as well as its total cost all in a tabular form.
+- **Settings:** Configuration options for adding users, departments, items and assigning budgets.
 
 ## New Updates
 - Implement shopping cart functionality for users to select and manage items.✅
