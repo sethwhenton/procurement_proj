@@ -1,35 +1,32 @@
 /* Core Styles */
 body {
-    margin: 0; /* Remove default body margin for better centering */
-    padding: 0; /* Remove default body padding for better centering */
-    display: flex; /* Use flexbox for vertical centering */
-    justify-content: center; /* Align content (buttons) in the center */
-    align-items: center; /* Vertically center content within the flex container */
-    min-height: 100vh; /* Set minimum height to fill the viewport */
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    min-height: 100vh;
 }
-
 
 .container {
     width: 80%;
     margin: auto;
-    padding: 20px; /* Add some padding for visual appeal */
-    border-radius: 5px; /* Subtle rounded corners */
-    background-color: #f5f5f5; /* Light background for better readability */
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
-    max-width: 700px; /* Set a maximum width for responsiveness */
+    padding: 20px;
+    border-radius: 5px;
+    background-color: #f5f5f5;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    max-width: 700px;
 }
 
-/* Headings Styles */
 h1, h2 {
     margin: 10px 0;
     text-align: center;
 }
 
 h1 {
-    font-size: 2em; /* Increase heading size for prominence */
+    font-size: 2em;
 }
 
-/* Form Styles (Improved for User Home) */
 .form-group {
     margin-bottom: 15px;
 }
@@ -46,65 +43,38 @@ select, input[type="text"] {
     border-radius: 3px;
 }
 
-/* Button Styles */
-.button {
+.button, .table-button, .footer-button {
     display: inline-block;
-    width: 40%; /* Set button width to 40% of screen */
-    padding: 20px; /* Adjust padding for larger buttons */
-    margin: 10px; /* Adjust margin for spacing between buttons */
+    padding: 10px 20px;
+    margin: 10px;
     background-color: #007bff;
     color: #fff;
     text-decoration: none;
-    border: none; /* Remove border for cleaner look */
+    border: none;
     border-radius: 5px;
     cursor: pointer;
-    font-size: 1.5em; /* Increase font size for bigger text */
-    text-align: center; /* Center text within buttons */
-}
-
-
-.button:hover {
-    background-color: #0056b3;
-}
-
-/* Button Container Styles */
-.button-container {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    margin-top: 20px; /* Adjust margin for better spacing */
-}
-
-
-.table-button {
-    display: inline-block;
-    padding: 5px 10px; /* Smaller padding for table buttons */
-    margin: 5px; /* Smaller margins for table buttons */
-    background-color: #ddd; /* Light gray background for table buttons */
-    color: #333; /* Darker text for table buttons */
-    border: 1px solid #ccc; /* Light border for table buttons */
-    border-radius: 3px;
-    cursor: pointer;
-}
-
-.table-button:hover {
-    background-color: #ccc; /* Slightly darker hover effect */
-}
-
-
-/* Back Button Styles */
-.back-button {
-    background-color: #007bff;
+    font-size: 1em;
     text-align: center;
 }
 
+.button:hover, .table-button:hover, .footer-button:hover {
+    background-color: #0056b3;
+}
 
+.button-container, .footer-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}
 
+.back-button {
+    margin-top: 20px;
+    text-align: center;
+}
 
-/* Table Styles (Improved for View All Items) */
 table {
     width: 100%;
-    border-collapse: collapse; /* Remove space between cells */
+    border-collapse: collapse;
 }
 
 th, td {
@@ -113,21 +83,20 @@ th, td {
 }
 
 th {
-    text-align: left; /* Align table headers to the left */
-    background-color: #f1f1f1; /* Light background for headers */
+    text-align: left;
+    background-color: #f1f1f1;
 }
 
-/* Responsive Styles (Improved for Different Screen Sizes) */
 @media (max-width: 768px) {
     .container {
-        width: 90%; /* Adjust container width for smaller screens */
+        width: 90%;
     }
 
-    .button-container {
-        flex-direction: column; /* Stack buttons vertically on small screens */
+    .button-container, .footer-container {
+        flex-direction: column;
     }
 
-    .button {
-        margin: 5px 0; /* Adjust button margins for better spacing on small screens */
+    .button, .table-button, .footer-button {
+        margin: 5px 0;
     }
 }

@@ -52,13 +52,14 @@
                                 <span class="item-quantity">${item.quantity}</span> - 
                                 $<span class="item-total">${item.total.toFixed(2)}</span>
                             </p>
-                            <button class="delete-btn" aria-label="Remove item" data-item-id="${item.id}">❌</button>
+                            <button class="delete-btn" aria-label="Remove item" data-item-id="${item.id}">X</button>
                         </li>`;
                     $('#catalogue-list').append(itemHtml);
                 });
                 updateTotalCost();
             }
 
+            
             $('.add-btn').on('click', function() {
                 const itemId = $(this).data('item-id');
                 const itemElement = $(this).closest('li');
@@ -135,9 +136,7 @@
 </head>
 <body>
     <div class="heading">
-        <a href="{% url 'user_home' %}" class="button"><button class="back_button">Back</button></a>
-        
-        
+        <a href="{% url 'user_home' %}" class="back-button"><button class="back_button">Back</button></a>
         <h2>Select Items for {{ user.name }}</h2>
     </div>
     <div class="display">
@@ -163,8 +162,6 @@
             <p id="total-cost">Total Cost: $0.00</p>
             <button id="proceed-btn" aria-label="Proceed to checkout">Proceed</button>
         </div>
-        
     </div>
-    
 </body>
 </html>

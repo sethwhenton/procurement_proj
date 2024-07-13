@@ -5,6 +5,12 @@ from .forms import ItemForm, UserForm, DepartmentForm, BudgetForm
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 import json
+from django.db.models import Sum
+
+##to convert to excel
+import openpyxl
+from django.http import HttpResponse
+from openpyxl.styles import Font
 
 from collections import defaultdict
 # Admin Home
@@ -218,6 +224,118 @@ def delete_user(request, user_id):
 
 def settings(request):
     return render(request, 'core/settings.html')
+
+def view_all_items(request):
+    return render(request, 'core/view_all_items.html')
+
+
+
+def select_department(request):
+    departments = Department.objects.all()
+    return render(request, 'core/items_departments_select.html', {'departments': departments})
+
+
+
+def items_per_department(request, department_id):
+    department = get_object_or_404(Department, id=department_id)
+    users = CustomUser.objects.filter(department=department)
+    selected_items = SelectedItem.objects.filter(user__department=department)
+
+    # Create a dictionary to hold user selections
+    user_selections = {}
+    item_names = set()
+    for user in users:
+        user_selected_items = selected_items.filter(user=user)
+        user_selections[user.id] = {
+            'name': user.name,
+            'items': {item.item.name: item.quantity for item in user_selected_items},
+            'total_cost': sum(item.quantity * item.item.price for item in user_selected_items)
+        }
+        for item in user_selected_items:
+            item_names.add(item.item.name)
+
+    item_names = sorted(item_names)
+
+    return render(request, 'core/items_per_department.html', {
+        'department': department,
+        'user_selections': user_selections,
+        'item_names': item_names
+    })
+
+
+
+
+def view_total_items(request):
+    items = Item.objects.all()
+    departments = Department.objects.all()
+
+    # Create a dictionary to hold total item quantities per department
+    item_quantities_per_department = {item.id: {} for item in items}
+    for department in departments:
+        for item in items:
+            total_quantity = SelectedItem.objects.filter(item=item, user__department=department).aggregate(total_quantity=Sum('quantity'))['total_quantity'] or 0
+            item_quantities_per_department[item.id][department.id] = total_quantity
+
+    # Calculate total quantity and total cost for each item
+    total_quantities = {item.id: sum(item_quantities_per_department[item.id].values()) for item in items}
+    total_costs = {item.id: total_quantities[item.id] * item.price for item in items}
+
+    # Calculate the sum of all total costs
+    grand_total_cost = sum(total_costs.values())
+
+    return render(request, 'core/total_department_items.html', {
+        'items': items,
+        'departments': departments,
+        'item_quantities_per_department': item_quantities_per_department,
+        'total_quantities': total_quantities,
+        'total_costs': total_costs,
+        'grand_total_cost': grand_total_cost,
+    })
+
+
+def download_excel(request):
+    items = Item.objects.all()
+    departments = Department.objects.all()
+
+    item_quantities_per_department = {item.id: {} for item in items}
+    for department in departments:
+        for item in items:
+            total_quantity = SelectedItem.objects.filter(item=item, user__department=department).aggregate(total_quantity=Sum('quantity'))['total_quantity'] or 0
+            item_quantities_per_department[item.id][department.id] = total_quantity
+
+    total_quantities = {item.id: sum(item_quantities_per_department[item.id].values()) for item in items}
+    total_costs = {item.id: total_quantities[item.id] * item.price for item in items}
+    grand_total_cost = sum(total_costs.values())
+
+    wb = openpyxl.Workbook()
+    ws = wb.active
+    ws.title = "Total Items per Department"
+
+    headers = ["Item"]
+    for department in departments:
+        headers.append(department.name)
+    headers.extend(["Total Quantity", "Price", "Total Cost"])
+
+    ws.append(headers)
+
+    for item in items:
+        row = [item.name]
+        for department in departments:
+            row.append(item_quantities_per_department[item.id][department.id])
+        row.extend([total_quantities[item.id], item.price, total_costs[item.id]])
+        ws.append(row)
+
+    ws.append([""] * (len(departments) + 3) + ["Total Amount:", grand_total_cost])
+
+    for cell in ws["1:1"]:
+        cell.font = Font(bold=True)
+
+    response = HttpResponse(content_type="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")
+    response['Content-Disposition'] = 'attachment; filename=total_items_per_department.xlsx'
+    wb.save(response)
+    return response
+
+
 
 
 ############### BUDGET #####################

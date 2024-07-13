@@ -5,7 +5,14 @@ from core import views
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('settings/', views.settings, name='settings'),
+
     path('view_all_items/', views.view_all_items, name='view_all_items'),
+    path('select_department/', views.select_department, name='select_department'),
+    path('items_per_department/<int:department_id>/', views.items_per_department, name='items_per_department'),
+    path('view_total_items/', views.view_total_items, name='view_total_items'),
+    path('download_excel/', views.download_excel, name='download_excel'),
+
+    
     path('', views.home, name='home'),
     path('admin_home/', views.admin_home, name='admin_home'),
     

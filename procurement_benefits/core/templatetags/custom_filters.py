@@ -10,3 +10,11 @@ def multiply(value, arg):
 @register.filter
 def total_cost(selected_items):
     return sum(item.quantity * item.item.price for item in selected_items)
+
+
+
+@register.filter
+def get_item(dictionary, key):
+    return dictionary.get(key)
+
+

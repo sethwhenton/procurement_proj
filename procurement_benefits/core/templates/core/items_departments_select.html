@@ -1,0 +1,13 @@
+<!-- core/templates/core/items_departments_select.html -->
+{% extends 'core/base.html' %}
+{% block content %}
+<div class="container">
+    <h1>Select a Department</h1>
+    <ul>
+        {% for department in departments %}
+        <li><a href="{% url 'items_per_department' department.id %}">{{ department.name }}</a></li>
+        {% endfor %}
+    </ul>
+    <a href="{% url 'view_all_items' %}" class="button">Back</a>
+</div>
+{% endblock %}
