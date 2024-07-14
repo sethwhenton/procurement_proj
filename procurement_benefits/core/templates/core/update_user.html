@@ -3,7 +3,11 @@
 
 {% block content %}
 <div class="container">
-    <h1>Update User</h1>
+    <div class="topbar">
+        <div class="titlepart">
+            <h1>Update User</h1>
+        </div>
+    </div>
     <form method="post">
         {% csrf_token %}
         {{ form.as_p }}

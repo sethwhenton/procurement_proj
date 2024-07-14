@@ -6,34 +6,53 @@ body {
     flex-direction: column;
     justify-content: space-between;
     min-height: 100vh;
+    font-family: 'Exo 2', sans-serif;
+    background-color: #f4f4f4;
 }
 
 .container {
-    width: 80%;
-    margin: auto;
     padding: 20px;
-    border-radius: 5px;
-    background-color: #f5f5f5;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-    max-width: 700px;
+    background-color: #fff;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    width: 100%;
+    max-width: 800px; /* Increase max-width to ensure it accommodates all contents */
+    margin: 20px auto; /* Center the container */
 }
 
-h1, h2 {
-    margin: 10px 0;
+.topbar {
+    display: flex;
+    justify-content: center;
+    align-items: center; /* Vertically center the items */
+    gap: 20px; /* Add gap between items */
+}
+
+.titlepart {
     text-align: center;
 }
 
-h1 {
-    font-size: 2em;
+.button-container {
+    display: flex;
+    justify-content: space-around;
+    margin-top: 20px;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    font-family: 'Exo 2', sans-serif;
+    font-optical-sizing: auto;
+    font-weight: 800; /* Adjust the weight as needed */
+    color: rgb(247, 114, 5);
 }
 
 .form-group {
     margin-bottom: 15px;
 }
 
-label {
-    display: block;
-    margin-bottom: 5px;
+.label, th, td {
+    font-family: 'Exo 2', sans-serif;
+    font-optical-sizing: auto;
+    font-weight: 400; /* Adjust the weight as needed */
 }
 
 select, input[type="text"] {
@@ -75,16 +94,43 @@ select, input[type="text"] {
 table {
     width: 100%;
     border-collapse: collapse;
+    font-family: 'Arial', sans-serif;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    overflow: hidden;
 }
 
+/* Table header styling */
 th, td {
-    padding: 10px;
+    padding: 12px 15px;
     border: 1px solid #ddd;
+    text-align: center;
 }
 
 th {
-    text-align: left;
     background-color: #f1f1f1;
+    color: #333;
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+tr {
+    text-align: center;
+}
+
+/* Table body styling */
+tbody tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+tbody tr:hover {
+    background-color: #f1f1f1;
+}
+
+/* Action buttons container */
+td.action-buttons {
+    display: flex;
+    gap: 10px; /* Space between buttons */
 }
 
 @media (max-width: 768px) {

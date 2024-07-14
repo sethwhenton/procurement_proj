@@ -80,7 +80,7 @@
                                 <span class="item-quantity">1</span> - 
                                 $<span class="item-total">${itemPrice.toFixed(2)}</span>
                             </p>
-                            <button class="delete-btn" aria-label="Remove item" data-item-id="${itemId}">❌</button>
+                            <button class="delete-btn" aria-label="Remove item" data-item-id="${itemId}">X</button>
                         </li>`;
                     $('#catalogue-list').append(newItemHtml);
                 }
@@ -136,7 +136,9 @@
 </head>
 <body>
     <div class="heading">
-        <a href="{% url 'user_home' %}" class="back-button"><button class="back_button">Back</button></a>
+        <a href="{% url 'user_home' %}" class="back-button">
+            <button class="back_button">Back</button>
+        </a>
         <h2>Select Items for {{ user.name }}</h2>
     </div>
     <div class="display">

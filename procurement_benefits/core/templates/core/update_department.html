@@ -2,7 +2,11 @@
 {% extends 'core/base.html' %}
 {% block content %}
 <div class="container">
-    <h1>Update Department</h1>
+    <div class="topbar">
+        <div class="titlepart">
+            <h1>Update Department</h1>
+        </div>
+    </div>
     <form id="updateDepartmentForm" method="post" action="">
         {% csrf_token %}
         <label for="name">Department Name:</label>

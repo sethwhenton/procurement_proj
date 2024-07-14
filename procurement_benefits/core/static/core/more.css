@@ -1,0 +1,18 @@
+.logo {
+    position: absolute;
+    top: 10px;  /* Adjust as needed */
+    left: 10px; /* Adjust as needed */
+    width: 200px;  /* Adjust size as needed */
+    height: auto;
+
+}
+
+.titleheading{
+    font-family: 'Exo 2', sans-serif;
+    font-optical-sizing: auto;
+    font-weight: 800; /* You can adjust the weight as needed */
+    color: rgb(223, 132, 14);
+}
+
+/* more.css */
+

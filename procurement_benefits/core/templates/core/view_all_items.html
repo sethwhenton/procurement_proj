@@ -2,12 +2,15 @@
 {% extends 'core/base.html' %}
 {% block content %}
 <div class="container">
-    <h1>View All Items</h1>
-    <div>
+    <div class="topbar">
+        <div class="titlepart">
+            <h1>How do you want to view the items?</h1>
+        </div>
+    </div>
+    <div class="button-container">
         <a href="{% url 'select_department' %}" class="button">View by Department</a>
         <a href="{% url 'view_total_items' %}" class="button">View Total Items</a>
-        <a href="{% url 'admin_home' %}" class="button">Back</a>
-
     </div>
+    <a href="{% url 'admin_home' %}" class="button">Back</a>
 </div>
 {% endblock %}

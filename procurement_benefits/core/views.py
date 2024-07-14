@@ -217,7 +217,8 @@ def delete_user(request, user_id):
     if request.method == 'POST':
         user.delete()
         return redirect('user_list')
-    return render(request, 'core/delete_user.html', {'user': user})
+    context = {'user': user}
+    return render(request, 'core/delete_user.html',{'user': user})
 
 
 ############### ADMIN NAV ###############

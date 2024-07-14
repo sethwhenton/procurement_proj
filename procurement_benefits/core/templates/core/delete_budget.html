@@ -3,7 +3,11 @@
 
 {% block content %}
 <div class="container">
-    <h1>Delete Budget</h1>
+    <div class="topbar">
+        <div class="titlepart">
+            <h1>Delete Budget</h1>
+        </div>
+    </div>
     <p>Are you sure you want to delete the budget: {{ budget.classification }} - {{ budget.amount }}gh?</p>
     <form method="post">
         {% csrf_token %}
