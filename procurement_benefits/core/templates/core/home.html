@@ -1,0 +1,19 @@
+<!-- core/templates/core/home.html -->
+{% extends 'core/base.html' %}
+{% load static %}
+
+{% block content %}
+<link rel="stylesheet" href="{% static 'core/home.css' %}">
+
+<div class="home_container animated-div">
+    <div class="topbar">
+        <div class="titlepart">
+            <h1>Welcome to the Procurement Provisions selection site</h1>
+        </div>
+    </div>
+    <div class="button-container">
+        <a href="{% url 'user_home' %}" class="button">User</a>
+        <a href="{% url 'admin_home' %}" class="button">Admin</a>
+    </div>
+</div>
+{% endblock %}

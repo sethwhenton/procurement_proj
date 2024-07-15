@@ -1,0 +1,32 @@
+<!-- core/templates/core/add_department.html -->
+{% extends 'core/base.html' %}
+{% block content %}
+<div class="container">
+    <h1>Add Department</h1>
+    <form id="addDepartmentForm" method="post" action="">
+        {% csrf_token %}
+        <label for="name">Department Name:</label>
+        <input type="text" id="name" name="name" required>
+        <button type="submit" class="button">Submit</button>
+    </form>
+    <a href="{% url 'edit_departments' %}" class="button">Back</a>
+</div>
+
+<script>
+    document.getElementById('addDepartmentForm').addEventListener('submit', function(event) {
+        // Get form elements
+        const nameInput = document.getElementById('name');
+        
+        // Regular expression for validation
+        const namePattern = /^[a-zA-Z\s]+$/;
+        
+        // Validate name
+        if (!namePattern.test(nameInput.value)) {
+            alert('Please enter a valid department name (letters and spaces only).');
+            nameInput.focus();
+            event.preventDefault();
+            return false;
+        }
+    });
+</script>
+{% endblock %}

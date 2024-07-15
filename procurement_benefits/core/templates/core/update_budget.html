@@ -1,0 +1,46 @@
+<!-- core/templates/core/update_budget.html -->
+{% extends 'core/base.html' %}
+
+{% block content %}
+<div class="container">
+    <div class="topbar">
+        <div class="titlepart">
+            <h1>Update Budget</h1>
+        </div>
+    </div>
+    <form id="updateBudgetForm" method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" class="button">Save Changes</button>
+    </form>
+    <a href="{% url 'view_budgets' %}" class="button">Cancel</a>
+</div>
+
+<script>
+    document.getElementById('updateBudgetForm').addEventListener('submit', function(event) {
+        // Get form elements
+        const classificationInput = document.getElementById('id_classification');
+        const amountInput = document.getElementById('id_amount');
+        
+        // Regular expressions for validation
+        const classificationPattern = /^[a-zA-Z\s]+$/;
+        const amountPattern = /^\d+(\.\d{1,2})?$/;
+        
+        // Validate classification
+        if (!classificationPattern.test(classificationInput.value)) {
+            alert('Please enter a valid classification (letters and spaces only).');
+            classificationInput.focus();
+            event.preventDefault();
+            return false;
+        }
+
+        // Validate amount
+        if (!amountPattern.test(amountInput.value)) {
+            alert('Please enter a valid amount (numbers only).');
+            amountInput.focus();
+            event.preventDefault();
+            return false;
+        }
+    });
+</script>
+{% endblock %}
