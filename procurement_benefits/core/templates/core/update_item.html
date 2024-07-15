@@ -1,0 +1,41 @@
+<!-- core/templates/core/update_item.html -->
+{% extends 'core/base.html' %}
+{% block content %}
+<div class="container">
+    <h1>Update Item</h1>
+    <form id="updateItemForm" method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" class="button">Update</button>
+    </form>
+    <a href="{% url 'item_list' %}" class="button">Back</a>
+</div>
+
+<script>
+    document.getElementById('updateItemForm').addEventListener('submit', function(event) {
+        // Get form elements
+        const nameInput = document.getElementById('id_name');
+        const priceInput = document.getElementById('id_price');
+        
+        // Regular expressions for validation
+        const namePattern = /^[a-zA-Z\s]+$/;
+        const pricePattern = /^\d+(\.\d{1,2})?$/;
+        
+        // Validate name
+        if (!namePattern.test(nameInput.value)) {
+            alert('Please enter a valid name (letters and spaces only).');
+            nameInput.focus();
+            event.preventDefault();
+            return false;
+        }
+        
+        // Validate price
+        if (!pricePattern.test(priceInput.value)) {
+            alert('Please enter a valid price (numbers only).');
+            priceInput.focus();
+            event.preventDefault();
+            return false;
+        }
+    });
+</script>
+{% endblock %}

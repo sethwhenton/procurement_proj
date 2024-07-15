@@ -1,0 +1,109 @@
+/* more2.css */
+
+.newdel {
+    width: 80px;  /* Adjusted width */
+    height: 30px;  /* Adjusted height */
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    background: red;
+    border: none;
+    border-radius: 5px;
+    box-shadow: 1px 1px 3px rgba(0,0,0,0.15);
+    background: #e62222;
+}
+
+.newdel, .newdel span {
+    transition: 200ms;
+}
+
+.newdel .text {
+    transform: translateX(15px);  /* Adjusted to fit new width */
+    color: white;
+    font-weight: bold;
+}
+
+.newdel .icon {
+    position: absolute;
+    border-left: 1px solid #c41b1b;
+    transform: translateX(55px);  /* Adjusted to fit new width */
+    height: 30px;
+    width: 20px;  /* Adjusted width */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.newdel svg {
+    width: 10px;  /* Adjusted icon size */
+    fill: #eee;
+}
+
+.newdel:hover {
+    background: #ff3636;
+}
+
+.newdel:hover .text {
+    color: transparent;
+}
+
+.newdel:hover .icon {
+    width: 80px;  /* Adjusted width */
+    border-left: none;
+    transform: translateX(0);
+}
+
+.newdel:focus {
+    outline: none;
+}
+
+.newdel:active .icon svg {
+    transform: scale(0.8);
+}
+
+
+.Btn {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    width: 80px;  /* Adjusted width */
+    height: 30px;  /* Adjusted height */
+    border: none;
+    padding: 0px 20px;
+    background-color: orange;
+    color: black;
+    font-weight: 700;
+    cursor: pointer;
+    border-radius: 10px;
+    box-shadow: 5px 5px 0px rgb(243, 209, 145);
+    transition-duration: 0.3s;
+}
+
+.svg {
+    width: 10px;  /* Adjusted icon size */
+    position: absolute;
+    right: 0;
+    margin-right: 10px;  /* Adjusted margin */
+    fill: black;
+    transition-duration: 0.3s;
+}
+
+.Btn:hover {
+    color: transparent;
+}
+
+.Btn:hover svg {
+    right: 30%;
+    margin: 0;
+    padding: 0;
+    border: none;
+    transition-duration: 0.3s;
+}
+
+.Btn:active {
+    transform: translate(3px, 3px);
+    transition-duration: 0.3s;
+    box-shadow: 2px 2px 0px orange;
+}
+

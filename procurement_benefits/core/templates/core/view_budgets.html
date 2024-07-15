@@ -1,0 +1,35 @@
+<!-- core/templates/core/view_budgets.html -->
+{% extends 'core/base.html' %}
+
+{% block content %}
+<div class="container">
+    <div class="topbar">
+        <div class="titlepart">
+            <h1>View Budget</h1>
+        </div>
+    </div>
+    <table>
+        <thead>
+            <tr>
+                <th>Classification</th>
+                <th>Amount</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for budget in budgets %}
+                <tr>
+                    <td>{{ budget.classification }}</td>
+                    <td>{{ budget.amount }}</td>
+                    <td>
+                        <a href="{% url 'update_budget' budget.id %}">Edit</a>
+                        <a href="{% url 'delete_budget' budget.id %}">Delete</a>
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <a href="{% url 'settings' %}" class="table-button">Back</a>
+    <a href="{% url 'add_budget' %}" class="table-button">Add Budget</a>
+</div>
+{% endblock %}

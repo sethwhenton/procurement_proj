@@ -1,0 +1,29 @@
+
+{% extends 'core/base.html' %}
+
+{% block content %}
+    <div class="container">
+        <h1>User Home</h1>
+        <form method="post">
+            {% csrf_token %}
+            <div class="form-group">
+                <label for="user">Select Your Name:</label>
+                <select id="user" name="user">
+                    {% for user in users %}
+                        <option value="{{ user.id }}">{{ user.name }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="button-container">
+                <button type="submit" class="button">Next</button>
+            </div>
+        </form>
+        <div class="button-container">
+            <a href="{% url 'home' %}" class="button">Back to Home</a>
+        </div>
+    </div>
+{% endblock %}
+
+
+
+

@@ -1,0 +1,32 @@
+<!-- core/templates/core/items_per_department.html -->
+{% extends 'core/base.html' %}
+{% load custom_filters %}
+
+{% block content %}
+<div class="container">
+    <h1>Items Selected in the {{ department.name }} Department</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>Staff Name</th>
+                {% for item_name in item_names %}
+                <th>{{ item_name }}</th>
+                {% endfor %}
+                <th>Total Cost</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for user_id, user_data in user_selections.items %}
+            <tr>
+                <td>{{ user_data.name }}</td>
+                {% for item_name in item_names %}
+                <td>{{ user_data.items|get_item:item_name|default:0 }}</td>
+                {% endfor %}
+                <td>{{ user_data.total_cost }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <a href="{% url 'select_department' %}" class="button">Back</a>
+</div>
+{% endblock %}

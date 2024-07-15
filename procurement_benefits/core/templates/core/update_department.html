@@ -1,0 +1,36 @@
+<!-- core/templates/core/update_department.html -->
+{% extends 'core/base.html' %}
+{% block content %}
+<div class="container">
+    <div class="topbar">
+        <div class="titlepart">
+            <h1>Update Department</h1>
+        </div>
+    </div>
+    <form id="updateDepartmentForm" method="post" action="">
+        {% csrf_token %}
+        <label for="name">Department Name:</label>
+        <input type="text" id="name" name="name" value="{{ department.name }}" required>
+        <button type="submit" class="table-button">Update</button>
+    </form>
+    <a href="{% url 'edit_departments' %}" class="table-button">Back</a>
+</div>
+
+<script>
+    document.getElementById('updateDepartmentForm').addEventListener('submit', function(event) {
+        // Get form elements
+        const nameInput = document.getElementById('name');
+        
+        // Regular expression for validation
+        const namePattern = /^[a-zA-Z\s]+$/;
+        
+        // Validate name
+        if (!namePattern.test(nameInput.value)) {
+            alert('Please enter a valid department name (letters and spaces only).');
+            nameInput.focus();
+            event.preventDefault();
+            return false;
+        }
+    });
+</script>
+{% endblock %}

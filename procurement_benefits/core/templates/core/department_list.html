@@ -1,0 +1,28 @@
+<!-- core/templates/core/department_list.html -->
+{% extends 'core/base.html' %}
+{% block content %}
+<div class="container">
+    <h1>Department List</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>Department Name</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for department in departments %}
+            <tr>
+                <td>{{ department.name }}</td>
+                <td>
+                    <a href="{% url 'update_department' department.id %}" class="table-button">Update</a>
+                    <a href="{% url 'delete_department' department.id %}" class="table-button">Delete</a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <a href="{% url 'add_department' %}" class="button">Add Department</a>
+    <a href="{% url 'settings' %}" class="button">Back</a>
+</div>
+{% endblock %}

@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tea Distribution System - Select Items</title>
+    {% load static %}
+    <link rel="stylesheet" type="text/css" href="{% static 'core/style.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'core/catalogue.css' %}">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        function getCookie(name) {
+            let cookieValue = null;
+            if (document.cookie && document.cookie !== '') {
+                const cookies = document.cookie.split(';');
+                for (let i = 0; i < cookies.length; i++) {
+                    const cookie = cookies[i].trim();
+                    if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                        break;
+                    }
+                }
+            }
+            return cookieValue;
+        }
+        const csrftoken = getCookie('csrftoken');
+        
+        $.ajaxSetup({
+            beforeSend: function(xhr, settings) {
+                if (!(/^http:.*/.test(settings.url) || /^https:.*/.test(settings.url))) {
+                    xhr.setRequestHeader("X-CSRFToken", csrftoken);
+                }
+            }
+        });
+
+        $(document).ready(function() {
+            function updateTotalCost() {
+                let totalCost = 0;
+                $('#catalogue-list li').each(function() {
+                    const itemTotal = parseFloat($(this).find('.item-total').text());
+                    totalCost += itemTotal;
+                });
+                $('#total-cost').text('Total Cost: $' + totalCost.toFixed(2));
+            }
+
+            function loadSelectedItems(selectedItems) {
+                selectedItems.forEach(function(item) {
+                    const itemHtml = `
+                        <li data-item-id="${item.id}">
+                            <p>
+                                <span class="item-name">${item.name}</span> x 
+                                <span class="item-quantity">${item.quantity}</span> - 
+                                $<span class="item-total">${item.total.toFixed(2)}</span>
+                            </p>
+                            <button class="delete-btn" aria-label="Remove item" data-item-id="${item.id}">X</button>
+                        </li>`;
+                    $('#catalogue-list').append(itemHtml);
+                });
+                updateTotalCost();
+            }
+
+            
+            $('.add-btn').on('click', function() {
+                const itemId = $(this).data('item-id');
+                const itemElement = $(this).closest('li');
+                const itemName = itemElement.find('.item-name').text();
+                const itemPrice = parseFloat(itemElement.find('.item-price').text());
+
+                let selectedItem = $(`#catalogue-list li[data-item-id="${itemId}"]`);
+                if (selectedItem.length) {
+                    let quantityElement = selectedItem.find('.item-quantity');
+                    let quantity = parseInt(quantityElement.text()) + 1;
+                    quantityElement.text(quantity);
+                    selectedItem.find('.item-total').text((quantity * itemPrice).toFixed(2));
+                } else {
+                    const newItemHtml = `
+                        <li data-item-id="${itemId}">
+                            <p>
+                                <span class="item-name">${itemName}</span> x 
+                                <span class="item-quantity">1</span> - 
+                                $<span class="item-total">${itemPrice.toFixed(2)}</span>
+                            </p>
+                            <button class="delete-btn" aria-label="Remove item" data-item-id="${itemId}">X</button>
+                        </li>`;
+                    $('#catalogue-list').append(newItemHtml);
+                }
+
+                updateTotalCost();
+            });
+
+            $(document).on('click', '.delete-btn', function() {
+                const itemId = $(this).data('item-id');
+                $(this).closest('li').remove();
+                updateTotalCost();
+            });
+
+            $('#proceed-btn').on('click', function() {
+                let selectedItems = [];
+                $('#catalogue-list li').each(function() {
+                    const itemId = $(this).data('item-id');
+                    const quantity = $(this).find('.item-quantity').text();
+                    selectedItems.push({itemId: itemId, quantity: quantity});
+                });
+
+                console.log("Selected items to save: ", selectedItems);
+
+                $.ajax({
+                    type: 'POST',
+                    url: '{% url "save_selection" %}',
+                    data: {
+                        'selected_items': JSON.stringify(selectedItems),
+                        'csrfmiddlewaretoken': '{{ csrf_token }}'
+                    },
+                    success: function(response) {
+                        if (response.status === 'success') {
+                            window.location.href = '{% url "summary_checkout" %}';
+                        } else {
+                            console.error('Failed to save selection:', response.message);
+                            alert('Failed to save selection: ' + response.message);
+                        }
+                    },
+                    error: function(xhr, status, error) {
+                        console.error("An error occurred: " + error);
+                        alert("An error occurred while saving your selection. Please try again.");
+                    }
+                });
+            });
+
+            // Load pre-selected items if available
+            const preSelectedItems = JSON.parse('{{ selected_items_data|safe }}');
+            if (preSelectedItems.length) {
+                loadSelectedItems(preSelectedItems);
+            }
+        });
+    </script>
+</head>
+<body>
+    <div class="heading">
+        <a href="{% url 'user_home' %}" class="back-button">
+            <button class="back_button">Back</button>
+        </a>
+        <h2>Select Items for {{ user.name }}</h2>
+    </div>
+    <div class="display">
+        <div class="catalogue">
+            <h3>Available Items</h3>
+            <ul id="items-list">
+                {% for item in items %}
+                <li data-item-id="{{ item.id }}">
+                    <p>
+                        <span class="item-name">{{ item.name }}</span> - 
+                        $<span class="item-price">{{ item.price }}</span>
+                    </p>
+                    <button class="add-btn" aria-label="Add item" data-item-id="{{ item.id }}">Add</button>
+                </li>
+                {% endfor %}
+            </ul>
+        </div>
+        <div class="checkout">
+            <h3>Selected Items</h3>
+            <ul id="catalogue-list">
+                <!-- Selected items will be populated here -->
+            </ul>
+            <p id="total-cost">Total Cost: $0.00</p>
+            <button id="proceed-btn" aria-label="Proceed to checkout">Proceed</button>
+        </div>
+    </div>
+</body>
+</html>

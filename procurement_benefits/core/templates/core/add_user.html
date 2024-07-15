@@ -1,0 +1,47 @@
+<!-- core/templates/core/add_user.html -->
+{% extends 'core/base.html' %}
+
+{% block content %}
+<div class="container">
+    <h1>Add User</h1>
+    <form id="addUserForm" method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" class="table-button">Add User</button>
+    </form>
+    <a href="{% url 'user_list' %}" class="table-button">Cancel</a>
+    <div class="back-button">
+        <a href="{% url 'user_home' %}" class="button">Back to User Home</a>
+    </div>
+</div>
+
+<script>
+    document.getElementById('addUserForm').addEventListener('submit', function(event) {
+        const nameInput = document.getElementById('id_name');
+        const budgetInput = document.getElementById('id_budget');
+        const departmentInput = document.getElementById('id_department');
+        const namePattern = /^[a-zA-Z\s]+$/;
+
+        if (!namePattern.test(nameInput.value)) {
+            alert('Please enter a valid name (letters and spaces only).');
+            nameInput.focus();
+            event.preventDefault();
+            return false;
+        }
+
+        if (!budgetInput.value) {
+            alert('Please select a budget.');
+            budgetInput.focus();
+            event.preventDefault();
+            return false;
+        }
+
+        if (!departmentInput.value) {
+            alert('Please select a department.');
+            departmentInput.focus();
+            event.preventDefault();
+            return false;
+        }
+    });
+</script>
+{% endblock %}

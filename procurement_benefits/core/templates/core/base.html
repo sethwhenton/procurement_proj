@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    {% load static %}
+    <title>Procurement Benefits</title>
+    <link rel="stylesheet" href="{% static 'core/styles.css' %}">
+    <link rel="stylesheet" href="{% static 'core/more.css' %}">
+    <link rel="stylesheet" href="{% static 'core/update_delbutton.css' %}">
+    <link rel="stylesheet" href="{% static 'core/add_back_buttons.css' %}">
+    <link rel="stylesheet" href="{% static 'core/download.css' %}">
+    <link rel="stylesheet" href="{% static 'core/home_page.css' %}">
+    <link rel="stylesheet" href="{% static 'core/selectdepartment.css' %}">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Exo+2:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+</head>
+<a href="{% url 'home' %}">
+    <img src="{% static 'core/images/sgslogo.png' %}" alt="logo" class="logo">
+</a>
+<body>
+    {% block content %}
+    {% endblock %}
+</body>
+</html>
