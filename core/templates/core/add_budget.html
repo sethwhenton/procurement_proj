@@ -1,0 +1,42 @@
+<!-- core/templates/core/add_budget.html -->
+{% extends 'core/base.html' %}
+
+{% block content %}
+<div class="container">
+    <h1>Add Budget</h1>
+    <form id="addBudgetForm" method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" class="table-button">Add Budget</button>
+    </form>
+    <a href="{% url 'view_budgets' %}" class="table-button">Back</a>
+</div>
+
+<script>
+    document.getElementById('addBudgetForm').addEventListener('submit', function(event) {
+        // Get form elements
+        const classificationInput = document.getElementById('id_classification');
+        const amountInput = document.getElementById('id_amount');
+        
+        // Regular expressions for validation
+        const classificationPattern = /^[a-zA-Z\s]+$/;
+        const amountPattern = /^\d+(\.\d{1,2})?$/;
+        
+        // Validate classification
+        if (!classificationPattern.test(classificationInput.value)) {
+            alert('Please enter a valid classification (letters and spaces only).');
+            classificationInput.focus();
+            event.preventDefault();
+            return false;
+        }
+
+        // Validate amount
+        if (!amountPattern.test(amountInput.value)) {
+            alert('Please enter a valid amount (numbers only).');
+            amountInput.focus();
+            event.preventDefault();
+            return false;
+        }
+    });
+</script>
+{% endblock %}

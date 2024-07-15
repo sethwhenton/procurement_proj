@@ -1,0 +1,124 @@
+/* catalogue.css */
+
+body {
+  font-family: Arial, sans-serif;
+  background-color: #f4f4f4;
+  margin: 0;
+  padding: 0;
+}
+
+.heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 20px;
+  background-color: #3b5998;
+  color: #fff;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+}
+
+.heading h2 {
+  margin: 0;
+}
+
+.back-button {
+  text-decoration: none;
+}
+
+.back_button {
+  background-color: #ff0000c5;
+  color: #fff;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.back_button:hover {
+  background-color: #cc0000c7;
+}
+
+.display {
+  display: flex;
+  flex-direction: row;
+  margin: 20px;
+  gap: 20px;
+}
+
+.catalogue, .checkout {
+  padding: 20px;
+  background-color: #fff;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0,0,0,0.1);
+  width: 48%;
+}
+
+.catalogue h3, .checkout h3 {
+  margin-top: 0;
+}
+
+
+
+
+#items-list, #catalogue-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+#items-list li, #catalogue-list li {
+  padding: 10px;
+  border-bottom: 1px solid #ccc;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+#items-list li:last-child, #catalogue-list li:last-child {
+  border-bottom: none;
+}
+
+.add-btn, .delete-btn {
+  background-color: #4CAF50;
+  color: #fff;
+  padding: 5px 10px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+
+.add-btn:hover, .delete-btn:hover {
+  background-color: #3e8e41;
+}
+
+.delete-btn {
+  background-color: #ff0000;
+  color: white;
+}
+
+.delete-btn:hover {
+  background-color: #cc0000;
+}
+
+#total-cost {
+  font-weight: bold;
+  font-size: 18px;
+  margin-top: 20px;
+}
+
+#proceed-btn {
+  background-color: #4CAF50;
+  color: #fff;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+#proceed-btn:hover {
+  background-color: #3e8e41;
+}

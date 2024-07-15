@@ -1,0 +1,81 @@
+{% extends 'core/base.html' %}
+{% load custom_filters %}
+{% block content %}
+<div class="container">
+    <div class="topbar">
+        <div class="titlepart">
+            <h1>Total Quantity of Items Selected</h1>
+        </div>
+    </div>
+    <table>
+        <thead>
+            <tr>
+                <th>Item</th>
+                {% for department in departments %}
+                <th>{{ department.name }}</th>
+                {% endfor %}
+                <th>Total Quantity</th>
+                <th>Price</th>
+                <th>Total Cost</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for item in items %}
+            <tr>
+                <td>{{ item.name }}</td>
+                {% for department in departments %}
+                <td>{{ item_quantities_per_department|get_item:item.id|get_item:department.id }}</td>
+                {% endfor %}
+                <td>{{ total_quantities|get_item:item.id }}</td>
+                <td>{{ item.price }}</td>
+                <td>{{ total_costs|get_item:item.id }}</td>
+            </tr>
+            {% endfor %}
+            <tr>
+                <td colspan="{{ departments|length|add:3 }}" style="text-align: right;"><strong>Total Amount:</strong></td>
+                <td><strong>{{ grand_total_cost }}</strong></td>
+            </tr>
+        </tbody>
+    </table>
+    <div class="belowpart">
+        <div class="button-container">
+            <a href="{% url 'view_all_items' %}" class="button">Back</a>
+    
+            <a href="{% url 'download_excel' %}">
+                <button class="botao">
+                    <svg
+                      class="mysvg"
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      height="24px"
+                      width="24px"
+                    >
+                      <g stroke-width="0" id="SVGRepo_bgCarrier"></g>
+                      <g
+                        stroke-linejoin="round"
+                        stroke-linecap="round"
+                        id="SVGRepo_tracerCarrier"
+                      ></g>
+                      <g id="SVGRepo_iconCarrier">
+                        <g id="Interface / Download">
+                          <path
+                            stroke-linejoin="round"
+                            stroke-linecap="round"
+                            stroke-width="2"
+                            stroke="#f1f1f1"
+                            d="M6 21H18M12 3V17M12 17L17 12M12 17L7 12"
+                            id="Vector"
+                          ></path>
+                        </g>
+                      </g>
+                    </svg>
+                    <span class="texto">Download</span>
+                  </button>
+            </a>
+        </div>
+
+    </div>
+    
+</div>
+{% endblock %}

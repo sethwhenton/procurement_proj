@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Selected Items</title>
+    {% load static %}
+    <link rel="stylesheet" type="text/css" href="{% static 'core/style.css' %}">
+</head>
+<body>
+    <div class="heading">
+        <h2>Selected Items for {{ user.name }}</h2>
+    </div>
+    <div class="summary">
+        <ul>
+            {% for selected_item in selected_items %}
+            <li>
+                <p>
+                    <span class="item-name">{{ selected_item.item.name }}</span> x 
+                    <span class="item-quantity">{{ selected_item.quantity }}</span> - 
+                    $<span class="item-total">{{ selected_item.quantity|multiply:selected_item.item.price }}</span>
+                </p>
+            </li>
+            {% endfor %}
+        </ul>
+   

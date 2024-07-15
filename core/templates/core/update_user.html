@@ -1,0 +1,18 @@
+<!-- core/templates/core/update_user.html -->
+{% extends 'core/base.html' %}
+
+{% block content %}
+<div class="container">
+    <div class="topbar">
+        <div class="titlepart">
+            <h1>Update User</h1>
+        </div>
+    </div>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" class="button">Save Changes</button>
+    </form>
+    <a href="{% url 'user_list' %}" class="button">Cancel</a>
+</div>
+{% endblock %}
