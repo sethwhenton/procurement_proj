@@ -1,0 +1,14 @@
+<!-- core/templates/core/update_company_name.html -->
+{% extends 'core/base.html' %}
+
+{% block content %}
+<div class="container">
+    <h1>Update Company Name</h1>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" class="button">Update</button>
+    </form>
+    <a href="{% url 'main_home' %}" class="button">Back</a>
+</div>
+{% endblock %}

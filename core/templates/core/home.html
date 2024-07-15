@@ -8,12 +8,13 @@
 <div class="home_container animated-div">
     <div class="topbar">
         <div class="titlepart">
-            <h1>Welcome to the Procurement Provisions selection site</h1>
+            <h1>Welcome to the Procurement Provisions selection site for{{ company.name }}</h1>
         </div>
     </div>
     <div class="button-container">
         <a href="{% url 'user_home' %}" class="button">User</a>
         <a href="{% url 'admin_home' %}" class="button">Admin</a>
     </div>
+    <a href="{% url 'main_home' %}" class="button">Back to select Company</a>
 </div>
 {% endblock %}

@@ -1,0 +1,13 @@
+<!-- core/templates/core/delete_company.html -->
+{% extends 'core/base.html' %}
+{% block content %}
+<div class="container">
+    <h1>Delete Company</h1>
+    <p>Are you sure you want to delete "{{ company.name }}"?</p>
+    <form method="post" action="">
+        {% csrf_token %}
+        <button type="submit" class="button">Yes</button>
+        <a href="{% url 'main_home' %}" class="button">No</a>
+    </form>
+</div>
+{% endblock %}
