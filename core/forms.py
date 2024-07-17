@@ -11,7 +11,7 @@ class ItemForm(forms.ModelForm):
 class UserForm(forms.ModelForm):
     class Meta:
         model = CustomUser
-        fields = ['name', 'department', 'company']
+        fields = ['name', 'department', 'budget']
 
 class DepartmentForm(forms.ModelForm):
     class Meta:

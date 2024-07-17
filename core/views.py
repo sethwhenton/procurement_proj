@@ -96,10 +96,13 @@ def select_item(request):
             'total': float(item.quantity * item.item.price)
         } for item in selected_items
     ]
+
+    user_budget = user.budget
     return render(request, 'core/select_item.html', {
         'user': user,
         'items': items,
-        'selected_items_data': json.dumps(selected_items_data, cls=DjangoJSONEncoder)
+        'selected_items_data': json.dumps(selected_items_data, cls=DjangoJSONEncoder),
+        'user_budget': user_budget
     })
 
 @csrf_exempt
@@ -195,7 +198,7 @@ def add_user(request):
         form = UserForm(request.POST)
         if form.is_valid():
             user = form.save(commit=False)
-            user.company = company
+            user.company = company  # Associate user with the selected company
             user.save()
             return redirect('user_list')
     else:

@@ -1,14 +1,14 @@
-
 {% extends 'core/base.html' %}
 
 {% block content %}
     <div class="container">
         <h1>User Home</h1>
-        <form method="post">
+        <form id="userForm" method="post">
             {% csrf_token %}
             <div class="form-group">
                 <label for="user">Select Your Name:</label>
                 <select id="user" name="user">
+                    <option value="">-- Select a User --</option>
                     {% for user in users %}
                         <option value="{{ user.id }}">{{ user.name }}</option>
                     {% endfor %}
@@ -22,8 +22,14 @@
             <a href="{% url 'home' %}" class="button">Back to Home</a>
         </div>
     </div>
+
+    <script>
+        document.getElementById('userForm').addEventListener('submit', function(event) {
+            var userSelect = document.getElementById('user');
+            if (userSelect.value === "") {
+                alert('Please select a user or create a user from admin.');
+                event.preventDefault();
+            }
+        });
+    </script>
 {% endblock %}
-
-
-
-

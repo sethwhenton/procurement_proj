@@ -1,4 +1,3 @@
-<!-- core/templates/core/add_user.html -->
 {% extends 'core/base.html' %}
 
 {% block content %}
@@ -17,14 +16,12 @@
 
 <script>
     document.getElementById('addUserForm').addEventListener('submit', function(event) {
-        const nameInput = document.getElementById('id_name');
-        const budgetInput = document.getElementById('id_budget');
         const departmentInput = document.getElementById('id_department');
-        const namePattern = /^[a-zA-Z\s]+$/;
+        const budgetInput = document.getElementById('id_budget');
 
-        if (!namePattern.test(nameInput.value)) {
-            alert('Please enter a valid name (letters and spaces only).');
-            nameInput.focus();
+        if (!departmentInput.value) {
+            alert('Please select a department.');
+            departmentInput.focus();
             event.preventDefault();
             return false;
         }
@@ -32,13 +29,6 @@
         if (!budgetInput.value) {
             alert('Please select a budget.');
             budgetInput.focus();
-            event.preventDefault();
-            return false;
-        }
-
-        if (!departmentInput.value) {
-            alert('Please select a department.');
-            departmentInput.focus();
             event.preventDefault();
             return false;
         }

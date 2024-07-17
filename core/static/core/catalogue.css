@@ -122,3 +122,30 @@ body {
 #proceed-btn:hover {
   background-color: #3e8e41;
 }
+
+.button-container {
+  display: flex;
+  gap: 5px;
+  justify-content: center;
+  align-items: center;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  padding: 2px;
+}
+
+.add-btn,
+.plus-button,
+.reduce-btn,
+.delete-btn {
+  border: none;
+  padding: 5px;
+  font-size: 16px;
+  border-radius
+}
+
+
+
+
+
+
+

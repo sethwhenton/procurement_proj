@@ -32,17 +32,21 @@
                 }
             }
         });
-
+/////////////////////////// this is to get the users budget from the db /////////////////////////////////
         $(document).ready(function() {
+            const budget = parseFloat('{{ user.budget.amount|safe }}');
+            let totalCost = 0;
+
+/////////////////////////// to update total cost when an item is added /////////////////////////////////
             function updateTotalCost() {
-                let totalCost = 0;
+                totalCost = 0;
                 $('#catalogue-list li').each(function() {
                     const itemTotal = parseFloat($(this).find('.item-total').text());
                     totalCost += itemTotal;
                 });
                 $('#total-cost').text('Total Cost: $' + totalCost.toFixed(2));
             }
-
+/////////////////////////// this is to load up selected items at the checkout /////////////////////////////////
             function loadSelectedItems(selectedItems) {
                 selectedItems.forEach(function(item) {
                     const itemHtml = `
@@ -52,19 +56,27 @@
                                 <span class="item-quantity">${item.quantity}</span> - 
                                 $<span class="item-total">${item.total.toFixed(2)}</span>
                             </p>
-                            <button class="delete-btn" aria-label="Remove item" data-item-id="${item.id}">X</button>
+                            <div class="button-container">
+                                <button class="plus-button" aria-label="Increase item quantity" data-item-id="${item.id}">+</button>
+                                <button class="reduce-btn" aria-label="Reduce item quantity" data-item-id="${item.id}">-</button>
+                                <button class="delete-btn" aria-label="Remove item" data-item-id="${item.id}">X</button>
+                            </div>
                         </li>`;
                     $('#catalogue-list').append(itemHtml);
                 });
                 updateTotalCost();
             }
-
-            
+/////////////////////////// add button to add items /////////////////////////////////
             $('.add-btn').on('click', function() {
                 const itemId = $(this).data('item-id');
                 const itemElement = $(this).closest('li');
                 const itemName = itemElement.find('.item-name').text();
                 const itemPrice = parseFloat(itemElement.find('.item-price').text());
+
+                if (totalCost + itemPrice > budget) {
+                    alert('You have exceeded your budget!');
+                    return;
+                }
 
                 let selectedItem = $(`#catalogue-list li[data-item-id="${itemId}"]`);
                 if (selectedItem.length) {
@@ -80,19 +92,57 @@
                                 <span class="item-quantity">1</span> - 
                                 $<span class="item-total">${itemPrice.toFixed(2)}</span>
                             </p>
-                            <button class="delete-btn" aria-label="Remove item" data-item-id="${itemId}">X</button>
+                            <div class="button-container">
+                                <button class="plus-button" aria-label="Increase item quantity" data-item-id="${itemId}">+</button>
+                                <button class="reduce-btn" aria-label="Reduce item quantity" data-item-id="${itemId}">-</button>
+                                <button class="delete-btn" aria-label="Remove item" data-item-id="${itemId}">X</button>
+                            </div>
                         </li>`;
                     $('#catalogue-list').append(newItemHtml);
                 }
 
                 updateTotalCost();
             });
+/////////////////////////// plus button at checkout /////////////////////////////////
+            $(document).on('click', '.plus-button', function() {
+                const itemId = $(this).data('item-id');
+                let selectedItem = $(`#catalogue-list li[data-item-id="${itemId}"]`);
+                let quantityElement = selectedItem.find('.item-quantity');
+                let quantity = parseInt(quantityElement.text()) + 1;
+                const itemPrice = parseFloat(selectedItem.find('.item-total').text()) / (quantity - 1);
+                quantityElement.text(quantity);
+                selectedItem.find('.item-total').text((quantity * itemPrice).toFixed(2));
+                updateTotalCost();
 
+                if (totalCost + itemPrice > budget) {
+                    alert('You have exceeded your budget!');
+                    return;
+                }
+            });
+
+            /////////////////////////// reduce button /////////////////////////////////
+            $(document).on('click', '.reduce-btn', function() {
+                const itemId = $(this).data('item-id');
+                let selectedItem = $(`#catalogue-list li[data-item-id="${itemId}"]`);
+                let quantityElement = selectedItem.find('.item-quantity');
+                let quantity = parseInt(quantityElement.text()) - 1;
+                if (quantity > 0) {
+                    quantityElement.text(quantity);
+                    const itemPrice = parseFloat(selectedItem.find('.item-total').text()) / (quantity + 1);
+                    selectedItem.find('.item-total').text((quantity * itemPrice).toFixed(2));
+                } else {
+                    selectedItem.remove();
+                }
+                updateTotalCost();
+            });
+/////////////////////////// delete button at checkout function/////////////////////////////////
             $(document).on('click', '.delete-btn', function() {
                 const itemId = $(this).data('item-id');
                 $(this).closest('li').remove();
                 updateTotalCost();
             });
+
+/////////////////////////// proceed button/////////////////////////////////
 
             $('#proceed-btn').on('click', function() {
                 let selectedItems = [];
@@ -103,6 +153,11 @@
                 });
 
                 console.log("Selected items to save: ", selectedItems);
+
+                if (totalCost > budget) {
+                    alert('You have exceeded your budget limit!');
+                    return;
+                }
 
                 $.ajax({
                     type: 'POST',
@@ -151,7 +206,7 @@
                         <span class="item-name">{{ item.name }}</span> - 
                         $<span class="item-price">{{ item.price }}</span>
                     </p>
-                    <button class="add-btn" aria-label="Add item" data-item-id="{{ item.id }}">Add</button>
+                    <button class="add-btn" aria-label="Add item" data-item-id="{{ item.id }}">+</button>
                 </li>
                 {% endfor %}
             </ul>
@@ -167,3 +222,4 @@
     </div>
 </body>
 </html>
+```
